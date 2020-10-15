@@ -1,20 +1,23 @@
 <template>
   <div class="container">
     <div>
-      <Logo />
       <h1 class="title">mobile-market</h1>
       <div class="links">
         <button class="button--green" @click="addVoiceLot">
           Add voice lot
         </button>
-        <button class="button--grey">Add inet lot</button>
+        <button class="button--grey" @click="addInetLot">Add inet lot</button>
       </div>
-      <div v-for="(item, index) in lots" :key="index">
-        {{ item }}
-        <button class="btn-sm" @click="() => deleteLot(index, item.id)">
-          delete
-        </button>
-      </div>
+      <b-list-group>
+        <b-list-group-item v-for="(item, index) in lots" :key="index">
+          <div class="d-flex w-100 justify-content-between">
+            <h6 class="mb-1">{{ item.trafficType }}</h6>
+            <button class="btn-sm" @click="() => deleteLot(index, item.id)">
+              delete
+            </button>
+          </div>
+        </b-list-group-item>
+      </b-list-group>
     </div>
   </div>
 </template>
@@ -29,6 +32,9 @@ export default {
   methods: {
     addVoiceLot() {
       this.$store.dispatch('lots/createVoiceLot')
+    },
+    addInetLot() {
+      this.$store.dispatch('lots/createInetLot')
     },
     deleteLot(index, id) {
       this.$store.dispatch('lots/deleteLot', { index, id })

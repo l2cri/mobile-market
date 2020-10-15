@@ -24,10 +24,22 @@ export const actions = {
       commit('setError', r.msg)
     }
   },
-  deleteLot({ commit }, { index, id }) {
-    console.info('id', id)
-    console.info('index', index)
-    commit('deleteLot', index)
+  async createInetLot({ commit }) {
+    const r = await this.$axios.$get('/api/add-inet')
+    if (r.status) {
+      commit('addLot', r.data)
+    } else {
+      commit('setError', r.msg)
+    }
+  },
+  async deleteLot({ commit }, { index, id }) {
+    const r = await this.$axios.$delete('/api/delete-lot/' + id)
+    // todo r.meta.status === 'OK'
+    if (r.status) {
+      commit('deleteLot', index)
+    } else {
+      commit('setError', r.msg)
+    }
   },
 }
 

@@ -8,9 +8,9 @@ route.get('/', function (req, res) {
   })
 
   const fields = {
-    volume: { value: 50, uom: 'min' },
-    cost: { amount: 40, currency: 'rub' },
-    trafficType: 'voice',
+    volume: { value: 1, uom: 'gb' },
+    cost: { amount: 15, currency: 'rub' },
+    trafficType: 'data',
   }
 
   axios
