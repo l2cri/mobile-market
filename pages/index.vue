@@ -4,29 +4,37 @@
       <Logo />
       <h1 class="title">mobile-market</h1>
       <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+        <button class="button--green" @click="addVoiceLot">
+          Add voice lot
+        </button>
+        <button class="button--grey">Add inet lot</button>
+      </div>
+      <div v-for="(item, index) in lots" :key="index">
+        {{ item }}
+        <button class="btn-sm" @click="() => deleteLot(index, item.id)">
+          delete
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    lots() {
+      return this.$store.getters['lots/list']
+    },
+  },
+  methods: {
+    addVoiceLot() {
+      this.$store.dispatch('lots/createVoiceLot')
+    },
+    deleteLot(index, id) {
+      this.$store.dispatch('lots/deleteLot', { index, id })
+    },
+  },
+}
 </script>
 
 <style>

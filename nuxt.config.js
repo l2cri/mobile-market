@@ -1,3 +1,6 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
+const bodyParser = require('body-parser')
+
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -47,4 +50,11 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {},
+
+  // server Middleware
+  serverMiddleware: [
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true }),
+    '~/api/index.js',
+  ],
 }
