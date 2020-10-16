@@ -1,5 +1,6 @@
-// eslint-disable-next-line nuxt/no-cjs-in-config
+/* eslint-disable nuxt/no-cjs-in-config */
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
@@ -48,7 +49,21 @@ export default {
   axios: {},
 
   // Auth module configuration (https://auth.nuxtjs.org/schemes/local.html#options)
-  auth: {},
+  auth: {
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/login',
+      home: '/',
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          user: { url: '/api/tele/user', method: 'get', propertyName: 'data' },
+        },
+      },
+    },
+  },
 
   // Content module configuration (https://go.nuxtjs.dev/config-content)
   content: {},
@@ -58,8 +73,18 @@ export default {
 
   // server Middleware
   serverMiddleware: [
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: true }),
+    { path: '/api', handler: bodyParser.json() },
+    { path: '/api', handler: bodyParser.urlencoded({ extended: true }) },
+    { path: '/api', handler: cookieParser() },
+    { path: '/api', handler: '~/serverMiddleware/session.js' },
+    { path: '/api/auth/login', handler: '~/api/auth/login.js' },
+    { path: '/api/auth/logout', handler: '~/api/auth/logout.js' },
+    { path: '/api/auth/sms/', handler: '~/api/auth/sms.js' },
     '~/api/index.js',
   ],
+
+  // router
+  router: {
+    middleware: ['auth'],
+  },
 }

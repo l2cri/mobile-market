@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  auth: true,
   computed: {
     lots() {
       return this.$store.getters['lots/list']

@@ -17,28 +17,27 @@ export const mutations = {
 
 export const actions = {
   async createVoiceLot({ commit }) {
-    const r = await this.$axios.$get('/api/add-voice')
+    const r = await this.$axios.$get('/api/tele/add-voice')
     if (r.status) {
       commit('addLot', r.data)
     } else {
-      commit('setError', r.msg)
+      commit('setError', r.message)
     }
   },
   async createInetLot({ commit }) {
-    const r = await this.$axios.$get('/api/add-inet')
+    const r = await this.$axios.$get('/api/tele/add-inet')
     if (r.status) {
       commit('addLot', r.data)
     } else {
-      commit('setError', r.msg)
+      commit('setError', r.message)
     }
   },
   async deleteLot({ commit }, { index, id }) {
-    const r = await this.$axios.$delete('/api/delete-lot/' + id)
-    // todo r.meta.status === 'OK'
+    const r = await this.$axios.$delete('/api/tele/delete-lot/' + id)
     if (r.status) {
       commit('deleteLot', index)
     } else {
-      commit('setError', r.msg)
+      commit('setError', r.message)
     }
   },
 }

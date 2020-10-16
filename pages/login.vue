@@ -1,23 +1,27 @@
 <template>
   <div>
-    <b-form @submit.prevent="userLogin">
+    <div v-if="this.$auth.loggedIn">
+      <b-button variant="outline-primary" @click="userLogout">logout</b-button>
+    </div>
+    <b-form @submit.prevent="userLogin" v-else>
       <b-form-group
         id="input-group-1"
-        label="Username:"
+        label="Phone:"
         label-for="input-1"
-        description="We'll never share your email with anyone else."
+        description="format 71234567890"
       >
         <b-form-input
           id="input-1"
           v-model="login.username"
           type="text"
           required
-          placeholder="Enter username"
+          placeholder="Enter phone"
         ></b-form-input>
       </b-form-group>
       <b-form-group
+        v-if="login.username.length === 11"
         id="input-group-2"
-        label="Password:"
+        label="Sms password:"
         label-for="input-2"
         description="password"
       >
@@ -26,10 +30,14 @@
           v-model="login.password"
           type="text"
           required
-          placeholder="Enter password"
+          autocomplete="off"
+          placeholder="Enter sms password"
         ></b-form-input>
       </b-form-group>
-      <b-button type="submit" variant="primary">Login</b-button>
+      <div v-if="login.username.length === 11">
+        <b-button type="submit" variant="danger">Login</b-button>
+        <b-button variant="primary" @click="sendSms">Send sms</b-button>
+      </div>
     </b-form>
   </div>
 </template>
@@ -51,6 +59,26 @@ export default {
         const response = await this.$auth.loginWith('local', {
           data: this.login,
         })
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async userLogout() {
+      console.info('logout')
+      try {
+        const response = await this.$auth.logout()
+        console.log(response)
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async sendSms() {
+      try {
+        const response = await this.$store.dispatch(
+          'sms/login',
+          this.login.username
+        )
         console.log(response)
       } catch (err) {
         console.log(err)
