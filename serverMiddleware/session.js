@@ -7,7 +7,7 @@ module.exports = session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    domain: process.env.COOKIE_DOMAIN,
+    domain: process.env.COOKIE_DOMAIN || 'localhost',
     maxAge: 1000 * 60 * 60,
   },
   store: new FileStore({}),

@@ -1,10 +1,5 @@
 const axios = require('axios')
 
-function AuthException(message) {
-  this.message = message
-  this.name = 'Authentication error'
-}
-
 module.exports.requestHandlerLot = (req, res, next) => {
   const old = res.json.bind(res)
   res.json = data => {
@@ -15,11 +10,13 @@ module.exports.requestHandlerLot = (req, res, next) => {
     console.info(req.session.user_id)
     const userId = req.session.user_id || false
     if (!userId) {
-      // throw new AuthException('no user id in session')
+      // throw 'no user id in session'
       return config
     }
+    const baseUrl =
+      process.env.LOT_API_URL || 'https://msk.tele2.ru/api/subscribers'
     config.headers.Authorization = 'Bearer ' + req.session.access_token || false
-    config.baseURL = process.env.LOT_API_URL + `/${userId}/`
+    config.baseURL = baseUrl + `/${userId}/`
     return config
   })
   req.lotRequest = axios
