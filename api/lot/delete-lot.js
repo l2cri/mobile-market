@@ -1,5 +1,5 @@
 const route = require('express').Router()
-const { successHandler, errorHandler } = require('../request/requestLot')
+const { successHandler, errorHandler } = require('../../request/requestLot')
 
 route.delete('/:itemId', (req, res) => {
   const { itemId } = req.params

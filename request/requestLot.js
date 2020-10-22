@@ -30,15 +30,17 @@ module.exports.successHandler = (res, modifyData) => ({ data }) => {
     }
     return res.json({ status: true, data: data.data, meta: data.meta })
   } else {
-    return res.json({ data: data.data, meta: data.meta, error: true })
+    return res
+      .status(400)
+      .json({ data: data.data, meta: data.meta, error: true })
   }
 }
 
 module.exports.errorHandler = res => error => {
   console.error(error)
   if (error.response) {
-    return res.json({ message: error.response.data, error: true })
+    return res.status(400).json({ message: error.response.data, error: true })
   } else {
-    return res.json({ ...error, error: true })
+    return res.status(400).json({ ...error, error: true })
   }
 }

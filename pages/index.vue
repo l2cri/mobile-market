@@ -3,18 +3,30 @@
     <div>
       <h1 class="title">mobile-market</h1>
       <div class="links">
-        <button class="button--green" @click="addVoiceLot">
+        <b-button variant="success" @click="addVoiceLot">
           Add voice lot
-        </button>
-        <button class="button--grey" @click="addInetLot">Add inet lot</button>
+        </b-button>
+        <b-button variant="primary" @click="addInetLot">
+          Add inet lot
+        </b-button>
+        <b-button variant="outline-danger" @click="deleteAll">
+          Delete all
+        </b-button>
+        <b-button variant="outline-danger" @click="deleteAllServer">
+          Delete all server
+        </b-button>
       </div>
       <b-list-group>
         <b-list-group-item v-for="(item, index) in lots" :key="index">
           <div class="d-flex w-100 justify-content-between">
             <h6 class="mb-1">{{ item.trafficType }}</h6>
-            <button class="btn-sm" @click="() => deleteLot(index, item.id)">
+            <b-button
+              size="sm"
+              variant="primary"
+              @click="() => deleteLot(index, item.id)"
+            >
               delete
-            </button>
+            </b-button>
           </div>
         </b-list-group-item>
       </b-list-group>
@@ -25,6 +37,9 @@
 <script>
 export default {
   auth: true,
+  async fetch() {
+    await this.$store.dispatch('lots/activeList')
+  },
   computed: {
     lots() {
       return this.$store.getters['lots/list']
@@ -37,12 +52,15 @@ export default {
     addInetLot() {
       this.$store.dispatch('lots/createInetLot')
     },
+    deleteAll() {
+      this.$store.dispatch('lots/deleteAllLots')
+    },
+    deleteAllServer() {
+      this.$store.dispatch('lots/deleteAllLotsServer')
+    },
     deleteLot(index, id) {
       this.$store.dispatch('lots/deleteLot', { index, id })
     },
-  },
-  async fetch() {
-    await this.$store.dispatch('lots/activeList')
   },
 }
 </script>
