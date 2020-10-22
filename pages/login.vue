@@ -76,7 +76,7 @@ export default {
     async sendSms() {
       try {
         const response = await this.$store.dispatch(
-          'sms/login',
+          'login/sms',
           this.login.username
         )
         console.log(response)

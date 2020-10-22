@@ -9,7 +9,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }, phone) {
+  async sms({ commit }, phone) {
     const r = await this.$axios.$get('/api/auth/sms/?id=' + phone)
 
     if (r.status) {
