@@ -10,12 +10,23 @@ export const mutations = {
   deleteLot(state, index) {
     state.lots.splice(index, 1)
   },
+  setListLot(state, lots) {
+    state.lots = lots
+  },
   setError(state, error) {
     state.error = error
   },
 }
 
 export const actions = {
+  async activeList({ commit }) {
+    const r = await this.$axios.$get('/api/tele/list/active')
+    if (r.status) {
+      commit('setListLot', r.data)
+    } else {
+      commit('setError', r.message)
+    }
+  },
   async createVoiceLot({ commit }) {
     const r = await this.$axios.$get('/api/tele/add-voice')
     if (r.status) {

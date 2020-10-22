@@ -23,9 +23,12 @@ module.exports.requestHandlerLot = (req, res, next) => {
   next()
 }
 
-module.exports.successHandler = res => ({ data }) => {
+module.exports.successHandler = (res, modifyData) => ({ data }) => {
   if (data.meta.status === 'OK') {
-    res.json({ status: true, data: data.data, meta: data.meta })
+    if (modifyData && modifyData instanceof Function) {
+      data.data = modifyData(data.data)
+    }
+    return res.json({ status: true, data: data.data, meta: data.meta })
   } else {
     return res.json({ data: data.data, meta: data.meta, error: true })
   }

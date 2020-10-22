@@ -41,6 +41,9 @@ export default {
       this.$store.dispatch('lots/deleteLot', { index, id })
     },
   },
+  async fetch() {
+    await this.$store.dispatch('lots/activeList')
+  },
 }
 </script>
 
